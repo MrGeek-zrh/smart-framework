@@ -46,6 +46,7 @@ public class ClassUtil {
 	* @param isInitialized: boolean-是否初始化
 	* @return CLass对象
 	 */
+	@SuppressWarnings("rawtypes")
 	public static Class loadClass(String className,boolean isInitialized) {
 		Class cls;
 		try {
@@ -69,30 +70,27 @@ public class ClassUtil {
 		Set<Class<?>>classSet = new HashSet<Class<?>>();
 		
 		try {
-			//获取指定包下的所有文件或文件夹的url
+//					暂时只针对本地文件进行处理，暂不支持获取远程文件的相关信息
+			//获取指定包下的所有文件或文件夹的URL对象
 			Enumeration<URL>urls = getClassLoader().getResources(packageName.replace(".", "/"));
-			//遍历所有的url
+			//遍历所有的URL
 			while (urls.hasMoreElements()) {
 				URL url = (URL) urls.nextElement();
 				
 				if (url!=null) {
+					//获取url的protocol类别
 					String protocol = url.getProtocol();
-//					这个url下面的内容可以有哪些种？？？？？？？？？？？？？？？？
-					//如果url的协议为file，有三种可能：
-					//1.该路径下就是.class文件 
-					//2.该路径下是存有.class文件的文件夹 
+					//url的协议为file，说明是本地文件/文件夹
 					if (protocol.equals("file")) {
-						//获取文件夹的路径
+						//获取文件夹/文件的路径
 						String packagePath = url.getPath();
-						//将添加CLass对象的操作封装为一个方法
+						//将CLass对象添加至classSet集合中
 						addClass(classSet,packagePath,packageName);
-					}else if (protocol.equals("jar")) {
-//						?????????????????????????????
 					}
 				}
 			}
 		} catch (Exception e) {
-			LOGGER.error("load class failure!",e);
+			LOGGER.error("load class failure!(we can only load localfile ,are you sure you are just loaded localfile ?)",e);
 			throw new RuntimeException(e);
 		}
 		return classSet;
@@ -108,23 +106,24 @@ public class ClassUtil {
 	* @param packageName 包的包名
 	 */
 	private static void addClass(Set<Class<?>>classSet ,String packagePath ,String packageName) {
-		//通过packagePath获取当前路径下的所有文件或文件夹
+		//通过packagePath获取当前路径下的所有文件或文件夹的File对象
 		File[] files = new File(packagePath).listFiles(new FileFilter() {
 			//保留.class文件或者文件夹
 			public boolean accept(File file) {
-				return file.isFile()&&file.getName().endsWith(".class")||file.isDirectory();
+				return (file.isFile()&&file.getName().endsWith(".class"))||file.isDirectory();
 			}
 		});
 
-		//对于.class文件和文件夹需要分开进行处理
+		//.class文件 和 文件夹需要分开进行处理
 		for (File file : files) {
-			//当是.class文件时，直接获取到带包名的className,然后调用classLoader()，加载即可
+			//当是.class文件时，直接获取到类的完整名称（带包名）,然后调用loadClass()加载即可
 			if (file.isFile()) {
 				String fileName = file.getName();
 				//className = packageName + fileName.substring(0, fileName.indexOf("."))
 				String className = packageName +"."+ fileName.substring(0, fileName.indexOf("."));  
 				//获取完整文件名之后，对文件进行加载，并将获取到的Class对象放进Set<CLass>集合中
-				Class cls = loadClass(className, false);
+				Class<?> cls = loadClass(className, false);
+				//将Class对象添加到classSet中
 				classSet.add(cls);
 			}
 			//当是文件夹时,需要进行递归
@@ -133,6 +132,7 @@ public class ClassUtil {
 				packagePath = packagePath+"/"+file.getName();
 				//重新设置packageName
 				packageName = packageName+"."+file.getName();
+				//递归调用当前方法
 				addClass(classSet, packagePath, packageName);
 			}
 		}

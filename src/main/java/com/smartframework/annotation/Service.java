@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Service注释
+ * Service注释，用于Service层接口实现类上
 * <p>Title: Service.java<／p>
 * <p>Description: <／p>
 * <p>Copyright: Copyright (c) 2020<／p>

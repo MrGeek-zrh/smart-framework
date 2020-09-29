@@ -1,17 +1,13 @@
 package com.smartframework.utils;
 
-import java.io.IOException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * JSON工具类
+ * JSON工具类:
+ * 		主要用于 POJO 和 JSON 之间的互相转换
 * <p>Title: JsonUtil.java<／p>
 * <p>Description: <／p>
 * <p>Copyright: Copyright (c) 2020<／p>

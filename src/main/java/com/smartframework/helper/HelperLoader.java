@@ -16,7 +16,7 @@ public class HelperLoader {
 
 	/**
 	 * 用于加载其他Helper助手类中的static 代码
-	* <p>Title: init<／p>
+	* <p>Title: HelperLoader.java<／p>
 	* <p>Description: <／p>
 	 */
 	public static void init() {

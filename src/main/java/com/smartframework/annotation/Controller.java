@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Controller注解类
+ * Controller注解类,用于控制器类上
 * <p>Title: Controller.java<／p>
 * <p>Description: <／p>
 * <p>Copyright: Copyright (c) 2020<／p>

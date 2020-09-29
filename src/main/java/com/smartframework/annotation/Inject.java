@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 依赖注入注释
+ * 依赖注入注释，用于成员变量上
 * <p>Title: Inject.java<／p>
 * <p>Description: <／p>
 * <p>Copyright: Copyright (c) 2020<／p>

@@ -11,7 +11,7 @@ import com.smartframework.utils.ReflectionUtil;
 
 /**
  * Bean 助手类：
- * 		主要用于记录CLass对象 与对应的实体类对象的映射关系
+ * 		主要成员变量BEAN_MAP 记录了Class对象 与 对应的 bean实例之间的映射关系，并提供了适当的方法，用于根据Class对象获取bean实例
 * <p>Title: BeanHelper.java<／p>
 * <p>Description: <／p>
 * <p>Copyright: Copyright (c) 2020<／p>
@@ -30,10 +30,10 @@ public class BeanHelper {
 	static {
 		//获取所有的Bean Class对象
 		Set<Class<?>>beanClassSet = ClassHelper.getBeanClassSet();
-		//遍历所有的Class对象，以便于为每个Class对象对应的类创建对象
+		//遍历所有的Class对象，以便于为每个Class对象对应的bean类创建对象
 		for (Class<?> cls: beanClassSet) {
 			Object obj = ReflectionUtil.newInstance(cls);
-			//为每个Class对象和他对应的类的对象建立映射关系
+			//为每个Class对象和对应的bean实例建立映射关系
 			BEAN_MAP.put(cls, obj);
 		}
 	}
@@ -56,7 +56,7 @@ public class BeanHelper {
 	* @param cls
 	* @return
 	 */
-//	？？？？？？？？？？？？？？？？？？？？？？？？？？？？？
+	//忽略
 	@SuppressWarnings("unchecked")
 	public static <T>T getBean(Class<T> cls) {
 		if (!BEAN_MAP.containsKey(cls)) {

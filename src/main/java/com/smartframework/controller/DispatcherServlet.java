@@ -1,3 +1,4 @@
+
 package com.smartframework.controller;
 
 import java.io.IOException;
@@ -21,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import com.smartframework.constant.Data;
 import com.smartframework.constant.Handler;
 import com.smartframework.constant.Param;
+import com.smartframework.constant.Request;
 import com.smartframework.constant.View;
 import com.smartframework.helper.BeanHelper;
 import com.smartframework.helper.ConfigHelper;
@@ -49,14 +51,20 @@ public class DispatcherServlet extends HttpServlet{
 		HelperLoader.init();
 		//获取ServletContext对象（用于注册Servlet）
 		ServletContext servletContext = servletConfig.getServletContext();
+		
 		//注册处理JSP的Servlet
 		ServletRegistration jspServlet = servletContext.getServletRegistration("jsp");
+		//为此servlet添加映射路径，和在web.xml中配置映射路径效果一样
 		jspServlet.addMapping(ConfigHelper.getAPPJspBasePath()+"*");
+		
 		//注册处理静态资源的默认Servlet
 		ServletRegistration defaultServlet = servletContext.getServletRegistration("default");
 		defaultServlet.addMapping(ConfigHelper.getAPPStaticResourceBasePath()+"*");
 	}
 	
+	/**
+	 * 重写HttpServlet中的service方法，以便于根据自己的需求来灵活调用doGet 和 doPost方法
+	 */
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -65,7 +73,8 @@ public class DispatcherServlet extends HttpServlet{
 		String requestPath = request.getPathInfo();
 		
 		//调用ControllerHelper方法，通过Request对象获取对应的Handler处理器
-		Handler handler = ControllerHelper.getHandler(requestMethod, requestPath);
+		Request request2 = new Request(requestMethod, requestPath);
+		Handler handler = ControllerHelper.getHandler(request2);
 		//判断有没有成功获取handler处理器
 		if (handler!=null) {
 			//成功获取hanlder处理器
@@ -73,7 +82,7 @@ public class DispatcherServlet extends HttpServlet{
 			Class<?>controllerClass = handler.getControllerClass();
 			Object controllerBean = BeanHelper.getBean(controllerClass);
 			
-			//创建请求参数对象，用于保存request中所有的参数的key和value
+			//创建请求参数对象，用于封装request请求中的参数以及对应的值
 			Map<String, Object>paramMap = new HashedMap();
 			
 			//获取request中所有的参数的名称
@@ -150,7 +159,7 @@ public class DispatcherServlet extends HttpServlet{
 					//将数据转换为JSON字符串
 					PrintWriter writer = response.getWriter();
 					String json = JsonUtil.toJson(model);
-					//将字符床写入流中
+					//将字符串写入流中 
 					writer.write(json);
 					writer.flush();
 					writer.close();

@@ -8,7 +8,7 @@ import com.smartframework.annotation.Service;
 import com.smartframework.utils.ClassUtil;
 
 /**
- * 用于获取指定包下的所有类、所有Service类、所有Controller类：
+ * 用于获取指定包下的 所有类、所有Service类、所有Controller类：
  * 		借助ClassUtil工具类实现
 * <p>Title: ClassHelper.java<／p>
 * <p>Description: <／p>

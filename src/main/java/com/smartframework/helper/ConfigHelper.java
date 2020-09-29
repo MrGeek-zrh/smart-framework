@@ -7,7 +7,7 @@ import com.smartframework.utils.PropsUtil;
 
 /**
  * 配置文件读取类：
- * 		主要用于读取配置文件中的内容（借助工具类PropsUtil实现）
+ * 		主要用于获取配置文件中属性的值（借助工具类PropsUtil实现）
 * <p>Title: ConfigHelper.java<／p>
 * <p>Description: <／p>
 * <p>Copyright: Copyright (c) 2020<／p>

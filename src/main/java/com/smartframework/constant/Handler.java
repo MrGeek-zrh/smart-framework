@@ -3,7 +3,7 @@ package com.smartframework.constant;
 import java.lang.reflect.Method;
 
 /**
- * 封装控制器的一些信息
+ * 用于封装 当前控制器的Class对象以及用于处理请求的方法 的信息
 * <p>Title: Param.java<／p>
 * <p>Description: <／p>
 * <p>Copyright: Copyright (c) 2020<／p>

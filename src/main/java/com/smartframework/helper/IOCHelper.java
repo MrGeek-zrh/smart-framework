@@ -3,13 +3,12 @@ package com.smartframework.helper;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-import org.apache.commons.lang.ObjectUtils.Null;
-
 import com.smartframework.annotation.Inject;
 import com.smartframework.utils.ReflectionUtil;
 
 /**
- * IOC功能助手类
+ * IOC功能助手类:
+ * 		IOC功能实现的关键类，通过整合其他工具类，实现IOC
 * <p>Title: IOCHelper.java<／p>
 * <p>Description: <／p>
 * <p>Copyright: Copyright (c) 2020<／p>
@@ -24,15 +23,16 @@ public final class IOCHelper {
 		//获取所有的Class对象与Bean实例之间的关系
 		Map<Class<?>, Object>beanMap = BeanHelper.getBeanMap();
 		if (!beanMap.isEmpty()) {
-			//便利Bean Map
+			//遍历Bean Map
 			for (Map.Entry<Class<?>, Object> beanEntry: beanMap.entrySet()) {
-				//获取每个bean实例和Class类
+				//获取每个bean实例和Class对象
 				Class<?>beanClass = beanEntry.getKey();
 				Object beanInstance = beanEntry.getValue();
 				//获取Class对象的所有成员变量
 				Field[] fields = beanClass.getDeclaredFields();
+				//判断fields数组是否为空
 				if (fields.length>0) {
-					//便利Field数组，查找带有@Inject注解的成员变量
+					//遍历Field数组，查找带有@Inject注解的成员变量
 					for (Field field : fields) {
 						//对于带有@Inject注解的成员变量，获取他的定义类型的CLass对象
 						if (field.isAnnotationPresent(Inject.class)) {

@@ -8,7 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 编码与解码工具类
+ * 编码与解码工具类:
+ * 		编码与解码的主要目的为了方便url中数据的传输
 * <p>Title: CodeUtil.java<／p>
 * <p>Description: <／p>
 * <p>Copyright: Copyright (c) 2020<／p>
@@ -22,11 +23,10 @@ public final class CodeUtil {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CodeUtil.class);
 	
 	/**
-	 * 将URL使用指定的编码机制将字符串转换为 
-	 * 		application/x-www-form-urlencoded 格式。
+	 * 将URL使用指定的编码进行编码 
 	* <p>Title: encodeURL<／p>
 	* <p>Description: <／p>
-	* @param source
+	* @param source 
 	* @return
 	 */
 	public static String encodeURL(String source) {

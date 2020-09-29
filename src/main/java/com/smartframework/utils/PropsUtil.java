@@ -25,7 +25,7 @@ public final class PropsUtil {
 	private static final Logger LOGGER = LoggerFactory.getLogger(PropsUtil.class);
 	
 	/**
-	 * 加载properties文件
+	 * 加载properties文件,将properties文件加载进Properties集合中
 	* <p>Title: loadProps<／p>
 	* <p>Description: <／p>
 	* @param fileName：属性文件名称
@@ -70,7 +70,7 @@ public final class PropsUtil {
 	* <p>Description: <／p>
 	* @param props
 	* @param key
-	* @return
+	* @return	和属性名对应的属性值
 	 */
 	public static String getString(Properties props,String key) {
 		
@@ -91,7 +91,7 @@ public final class PropsUtil {
 	* <p>Description: <／p>
 	* @param props
 	* @param key
-	* @return
+	* @return	和属性名对应的属性值
 	 */
 	public static int getInt(Properties props,String key) {
 		

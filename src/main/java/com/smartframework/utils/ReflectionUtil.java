@@ -24,7 +24,7 @@ public final class ReflectionUtil {
 	
 	/**
 	 * 通过Class对象为类创建对象：
-	 * 		借助类的无参构造方法
+	 * 		借助Class类的无参构造方法
 	* <p>Title: newInstance<／p>
 	* <p>Description: <／p>
 	* @param cls
@@ -33,7 +33,7 @@ public final class ReflectionUtil {
 	public static Object newInstance(Class<?>cls) {
 		Object instance;
 		try {
-			//调用Class对象的newInstance 方法，为Class对象对应的类创建对象
+			//调用Class对象自带的的newInstance 方法，为Class对象对应的类创建对象
 			instance = cls.newInstance();
 		} catch (Exception e) {
 			LOGGER.error("new instance failure",e);
@@ -43,15 +43,16 @@ public final class ReflectionUtil {
 	}
 	
 	/**
-	 * 调用Method
+	 * 执行 bean实例 的方法
 	* <p>Title: invokeMethod<／p>
 	* <p>Description: <／p>
-	* @param obj 类的对象
+	* @param obj bean实例
 	* @param method Class对象的Method属性
 	* @param args 可变参数
 	* @return Method的执行结果
 	 */
 	public static Object invokeMethod(Object obj,Method method,Object... args) {
+		//方法的执行结果
 		Object result;
 		method.setAccessible(true);
 		try {
@@ -64,10 +65,10 @@ public final class ReflectionUtil {
 	}
 	
 	/**
-	 * 设置Class对象的成员变量的值
+	 * 为Class对象的成员变量赋值
 	* <p>Title: setField<／p>
 	* <p>Description: <／p>
-	* @param obj 类的对象
+	* @param obj bean实例
 	* @param field Class的某一个成员变量
 	* @param value 想要设置的值
 	 */

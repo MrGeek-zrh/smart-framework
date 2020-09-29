@@ -4,7 +4,8 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
- * 请求路径、方法封装类
+ * 请求路径、方法封装类:
+ * 		主要封装了请求方法以及请求路径
 * <p>Title: Request.java<／p>
 * <p>Description: <／p>
 * <p>Copyright: Copyright (c) 2020<／p>

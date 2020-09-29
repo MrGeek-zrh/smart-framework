@@ -3,8 +3,9 @@ package com.smartframework.constant;
 import java.util.Map;
 
 /**
- * 视图封装类
-* <p>Title: VIew.java<／p>
+ * 视图封装类:
+ * 		主要用于封装视图的路径，以及相应的参数模型
+* <p>Title: View.java<／p>
 * <p>Description: <／p>
 * <p>Copyright: Copyright (c) 2020<／p>
 * <p>Company: CUIT<／p>

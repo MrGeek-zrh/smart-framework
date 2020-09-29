@@ -50,6 +50,8 @@ public final class ControllerHelper {
 								Request request = new Request(requestMethod, requestPath);
 								//将当前的控制器的CLass对象和当前的处理请求的方法封装到Handler中
 								Handler handler = new Handler(cls, method);
+								//将Request 和 Handler 封装到Map集合中
+								ACTION_MAP.put(request, handler);
 							}
 						}
 					}
@@ -59,15 +61,14 @@ public final class ControllerHelper {
 	}
 	
 	/**
-	 * 根据请求方法和请求路径获取对应的Handler对象
+	 * 根据Request获取对应的Handler对象
 	* <p>Title: getHandler<／p>
 	* <p>Description: <／p>
 	* @param requestMethod
 	* @param requestPath
 	* @return Handler对象
 	 */
-	public static Handler getHandler(String requestMethod,String requestPath) {
-		Request request = new Request(requestMethod, requestPath);
+	public static Handler getHandler(Request request) {
 		return ACTION_MAP.get(request);
 	}
 }

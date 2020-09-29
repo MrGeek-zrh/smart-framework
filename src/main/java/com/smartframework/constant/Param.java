@@ -5,7 +5,8 @@ import java.util.Map;
 import com.smartframework.utils.CastUtil;
 
 /**
- * 参数封装类
+ * 参数封装类:
+ * 		主要用于封装Map集合，并提供适当的方法以获取执行参数的值
 * <p>Title: Param.java<／p>
 * <p>Description: <／p>
 * <p>Copyright: Copyright (c) 2020<／p>
