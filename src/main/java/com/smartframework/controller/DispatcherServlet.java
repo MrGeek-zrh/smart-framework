@@ -1,4 +1,3 @@
-
 package com.smartframework.controller;
 
 import java.io.IOException;
@@ -11,6 +10,7 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,6 +43,7 @@ import com.smartframework.utils.StreamUtil;
 * @date 2020-09-22_22:42:53
 * @version 1.0
  */
+@WebServlet(urlPatterns = "/*",loadOnStartup = 1)
 public class DispatcherServlet extends HttpServlet{
 
 	@Override
@@ -97,9 +98,14 @@ public class DispatcherServlet extends HttpServlet{
 				paramMap.put(paramName, paramValue);
 			}
 			
-			//将request中的参数进行解码，将参数还原
-			//body代表的是url中的参数部分，比如：https://r1---sn-ci5gup-cags.googlevideo.com/videoplayback?pcm2cms=yes&mime=video%2Fmp4
-										// 的？后面部分
+			System.err.println("==================================");
+			System.out.println("通过第一种方式获取到的参数");
+			for (Map.Entry<String, Object> entry: paramMap.entrySet()) {
+				System.out.println(entry.getKey()+":"+entry.getValue());
+			}
+			System.err.println("==================================");
+			
+			//对前台页面提交来的数据进行解析（数据是通过URL传来的）
 			String body = CodeUtil.decodeURL(StreamUtil.getString(request.getInputStream()));
 			if (StringUtils.isNotEmpty(body)) {
 				//将字符串初步分割
@@ -118,11 +124,20 @@ public class DispatcherServlet extends HttpServlet{
 				}
 			}
 			
+			System.err.println("==================================");
+			System.out.println("通过第二种方式获取到的参数");
+			for (Map.Entry<String, Object> entry: paramMap.entrySet()) {
+				System.out.println(entry.getKey()+":"+entry.getValue());
+			}
+			System.err.println("==================================");
+
+			
 			//将paramMap封装到Param实体类中
 			Param param = new Param(paramMap);
 			
 			//调用Action方法
 			Method actionMethod = handler.getActionMethod();
+			//获取方法的处理结果
 			Object result = ReflectionUtil.invokeMethod(controllerBean, actionMethod, param);
 			
 			//处理Action方法返回值
@@ -138,8 +153,10 @@ public class DispatcherServlet extends HttpServlet{
 				String path = view.getPath();
 				
 				if (StringUtils.isNotEmpty(path)) {
+					//如果访问的资源在WEB-INF外，可以直接访问
 					if (path.startsWith("/")) {
 						response.sendRedirect(request.getContextPath()+path);
+						//如果需要访问的资源在WEB-INF内，需要通过Servelt进行跳转，间接访问
 					}else {
 						Map<String, Object>model = view.getModel();
 						for (Map.Entry<String, Object> entry: model.entrySet()) {

@@ -23,7 +23,8 @@ public final class CodeUtil {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CodeUtil.class);
 	
 	/**
-	 * 将URL使用指定的编码进行编码 
+	 * 对向前台传递的数据进行编码：
+	 * 		按照 application/x-www-form-urlencoded 的格式
 	* <p>Title: encodeURL<／p>
 	* <p>Description: <／p>
 	* @param source 
@@ -41,7 +42,8 @@ public final class CodeUtil {
 	}
 	
 	/**
-	 * 将URL使用指定编码进行解码
+	 *对前台传来的数据进行解码：
+	 *		对 application/x-www-form-urlencoded 格式的字符串进行解码
 	* <p>Title: decodeURL<／p>
 	* <p>Description: <／p>
 	* @param source
