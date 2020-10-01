@@ -26,7 +26,7 @@ public class UtilsTest {
 	 */
 	@Test
 	public void testClassUtil() throws Exception {
-		String packageName = "com.smartframework.utils";
+		String packageName = "com.smartframework";
 		Set<Class<?>> classSet = ClassUtil.getClassSet(packageName);
 		for (Class<?> class1 : classSet) {
 			System.out.println(class1);

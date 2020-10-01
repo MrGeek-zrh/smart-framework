@@ -1,5 +1,6 @@
 package com.smartframework.constant;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -19,7 +20,7 @@ public class View {
 	private String path;
 	
 	//模型数据
-	private Map<String, Object>model;
+	private Map<String, Object>model = new HashMap<>();
 	
 	public View(String path) {
 		this.path = path;

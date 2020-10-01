@@ -33,6 +33,7 @@ public class BeanHelper {
 		//遍历所有的Class对象，以便于为每个Class对象对应的bean类创建对象
 		for (Class<?> cls: beanClassSet) {
 			Object obj = ReflectionUtil.newInstance(cls);
+			
 			//为每个Class对象和对应的bean实例建立映射关系
 			BEAN_MAP.put(cls, obj);
 		}

@@ -66,6 +66,7 @@ public class ClassUtil {
 	* @return
 	 */
 	public static Set<Class<?>> getClassSet(String packageName) {
+		
 		//定义一个Set集合，用于存储获取到的CLass对象
 		Set<Class<?>>classSet = new HashSet<Class<?>>();
 		
@@ -73,10 +74,10 @@ public class ClassUtil {
 //					暂时只针对本地文件进行处理，暂不支持获取远程文件的相关信息
 			//获取指定包下的所有文件或文件夹的URL对象
 			Enumeration<URL>urls = getClassLoader().getResources(packageName.replace(".", "/"));
+			
 			//遍历所有的URL
 			while (urls.hasMoreElements()) {
 				URL url = (URL) urls.nextElement();
-				
 				if (url!=null) {
 					//获取url的protocol类别
 					String protocol = url.getProtocol();
@@ -116,6 +117,9 @@ public class ClassUtil {
 
 		//.class文件 和 文件夹需要分开进行处理
 		for (File file : files) {
+			
+			
+			
 			//当是.class文件时，直接获取到类的完整名称（带包名）,然后调用loadClass()加载即可
 			if (file.isFile()) {
 				String fileName = file.getName();
@@ -129,11 +133,11 @@ public class ClassUtil {
 			//当是文件夹时,需要进行递归
 			if (file.isDirectory()) {
 				//重新设置packagePath
-				packagePath = packagePath+"/"+file.getName();
+				String subpackagePath = packagePath+"/"+file.getName();
 				//重新设置packageName
-				packageName = packageName+"."+file.getName();
+				String subpackageName = packageName+"."+file.getName();
 				//递归调用当前方法
-				addClass(classSet, packagePath, packageName);
+				addClass(classSet, subpackagePath, subpackageName);
 			}
 		}
 	}

@@ -48,6 +48,7 @@ public class DispatcherServlet extends HttpServlet{
 
 	@Override
 	public void init(ServletConfig servletConfig) throws ServletException {
+		
 		//初始化相关Helper类
 		HelperLoader.init();
 		//获取ServletContext对象（用于注册Servlet）
@@ -76,6 +77,7 @@ public class DispatcherServlet extends HttpServlet{
 		//调用ControllerHelper方法，通过Request对象获取对应的Handler处理器
 		Request request2 = new Request(requestMethod, requestPath);
 		Handler handler = ControllerHelper.getHandler(request2);
+		
 		//判断有没有成功获取handler处理器
 		if (handler!=null) {
 			//成功获取hanlder处理器
@@ -98,13 +100,6 @@ public class DispatcherServlet extends HttpServlet{
 				paramMap.put(paramName, paramValue);
 			}
 			
-			System.err.println("==================================");
-			System.out.println("通过第一种方式获取到的参数");
-			for (Map.Entry<String, Object> entry: paramMap.entrySet()) {
-				System.out.println(entry.getKey()+":"+entry.getValue());
-			}
-			System.err.println("==================================");
-			
 			//对前台页面提交来的数据进行解析（数据是通过URL传来的）
 			String body = CodeUtil.decodeURL(StreamUtil.getString(request.getInputStream()));
 			if (StringUtils.isNotEmpty(body)) {
@@ -123,14 +118,6 @@ public class DispatcherServlet extends HttpServlet{
 					}
 				}
 			}
-			
-			System.err.println("==================================");
-			System.out.println("通过第二种方式获取到的参数");
-			for (Map.Entry<String, Object> entry: paramMap.entrySet()) {
-				System.out.println(entry.getKey()+":"+entry.getValue());
-			}
-			System.err.println("==================================");
-
 			
 			//将paramMap封装到Param实体类中
 			Param param = new Param(paramMap);
@@ -153,14 +140,16 @@ public class DispatcherServlet extends HttpServlet{
 				String path = view.getPath();
 				
 				if (StringUtils.isNotEmpty(path)) {
-					//如果访问的资源在WEB-INF外，可以直接访问
+					//如果访问的是Servlet
 					if (path.startsWith("/")) {
 						response.sendRedirect(request.getContextPath()+path);
-						//如果需要访问的资源在WEB-INF内，需要通过Servelt进行跳转，间接访问
+						//如果访问的是JSP页面
 					}else {
 						Map<String, Object>model = view.getModel();
-						for (Map.Entry<String, Object> entry: model.entrySet()) {
-							request.setAttribute(entry.getKey(), entry.getValue());
+						if (!model.isEmpty()) {
+							for (Map.Entry<String, Object> entry: model.entrySet()) {
+								request.setAttribute(entry.getKey(), entry.getValue());
+							}
 						}
 						request.getRequestDispatcher(ConfigHelper.getAPPJspBasePath()+path).forward(request, response);
 					}
