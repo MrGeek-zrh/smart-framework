@@ -23,6 +23,9 @@ public class HelperLoader {
 		Class<?>[] classList = {
 				ClassHelper.class,
 				BeanHelper.class,
+				//AopHelper 需要在IOCHelper之前加载
+				//需要先通过AopHelper获取代理对象，然后通过IocHelper进行依赖注入
+				AopHelper.class,
 				IOCHelper.class,
 				ControllerHelper.class
 		};
