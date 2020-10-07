@@ -12,9 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.smartframework.annotation.Aspect;
+import com.smartframework.annotation.Service;
 import com.smartframework.proxy.AspectProxy;
 import com.smartframework.proxy.Proxy;
 import com.smartframework.proxy.ProxyManager;
+import com.smartframework.proxy.TransactionProxy;
 
 /**
  * AOP功能实现类
@@ -76,18 +78,8 @@ public final class AopHelper {
 	private static Map<Class<?>, Set<Class<?>>> createProxyMap() throws Exception{
 		//用于存储代理类与被代理类之间的映射关系
 		Map<Class<?>, Set<Class<?>>>proxyMap = new HashMap<>();
-		//获取所有实现了AspectProxy抽象类的类
-		Set<Class<?>>proxyClassSet = ClassHelper.getClassSetBySuper(AspectProxy.class);
-		for (Class<?> proxyClass : proxyClassSet) {
-			if (proxyClass.isAnnotationPresent(Aspect.class)) {
-				//获取代理类上的注解的实例
-				Aspect aspect = proxyClass.getAnnotation(Aspect.class);
-				//根据代理类上的注解的实例获取被代理类集合
-				Set<Class<?>>targetClassSet = createTargetClassSet(aspect);
-				//将代理类与被代理类集合存放到Map集合中
-				proxyMap.put(proxyClass, targetClassSet);
-			}
-		}
+		addAspectProxy(proxyMap);
+		addTransactionProxy(proxyMap);
 		return proxyMap;
 	}
 	
@@ -129,5 +121,34 @@ public final class AopHelper {
 			}
 		}
 		return targetMap;
+	}
+	
+	/**
+	 * 添加切面代理类
+	* <p>Title: addAspectProxy<／p>
+	* <p>Description: <／p>
+	* @param proxyMap
+	* @throws Exception
+	 */
+	private static void addAspectProxy(Map<Class<?>, Set<Class<?>>>proxyMap) throws Exception{
+		Set<Class<?>>proxyClassSet = ClassHelper.getClassSetBySuper(AspectProxy.class);
+		for (Class<?> proxyClass : proxyClassSet) {
+			if (proxyClass.isAnnotationPresent(Aspect.class)) {
+				Aspect aspect = proxyClass.getAnnotation(Aspect.class);
+				Set<Class<?>>targetClassSet = createTargetClassSet(aspect);
+				proxyMap.put(proxyClass, targetClassSet);
+			}
+		}
+	}
+	
+	/**
+	 * 添加事务代理类
+	* <p>Title: addTransactionProxy<／p>
+	* <p>Description: <／p>
+	* @param proxyMap
+	 */
+	private static void addTransactionProxy(Map<Class<?>, Set<Class<?>>>proxyMap) {
+		Set<Class<?>>serviceClassSet = ClassHelper.getClassSetByAnnotation(Service.class);
+		proxyMap.put(TransactionProxy.class, serviceClassSet);
 	}
 }
