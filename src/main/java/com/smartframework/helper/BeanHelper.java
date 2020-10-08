@@ -25,6 +25,7 @@ public class BeanHelper {
 	private static final Logger LOGGER = LoggerFactory.getLogger(BeanHelper.class);
 	
 	//创建Map集合，用于记录CLass对象 与对应的实体类对象的映射关系
+	//充当整个框架的容器
 	private static final Map<Class<?>, Object>BEAN_MAP = new HashMap<Class<?>, Object>();
 	
 	static {

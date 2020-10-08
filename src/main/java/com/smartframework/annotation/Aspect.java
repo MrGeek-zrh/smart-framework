@@ -7,7 +7,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 切面注解
+ * 切面注解:
+ * 		用于标记类切面类
 * <p>Title: Aspect.java<／p>
 * <p>Description: <／p>
 * <p>Copyright: Copyright (c) 2020<／p>

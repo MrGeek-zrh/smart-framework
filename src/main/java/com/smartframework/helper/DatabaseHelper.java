@@ -1,6 +1,5 @@
 package com.smartframework.helper;
 
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -38,7 +37,7 @@ public final class DatabaseHelper {
 	
 	static {
 		CONNECTION_HOLDER = new ThreadLocal<Connection>();
-		
+		//加载配置文件
 		Properties conf = PropsUtil.loadProps("jdbc.properties");
 		DRIVER = conf.getProperty("jdbc.driver");
 		URL = conf.getProperty("jdbc.url");
